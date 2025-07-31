@@ -1,9 +1,11 @@
+
 import React, { useContext, useState } from "react";
 import { toast } from "react-toastify";
-import { AdminContext } from "../../context/AdminContext";
-import { assets } from "../../assets/assets_admin/assets";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
+import { AdminContext } from "../../context/AdminContext";
+import { assets } from "../../assets/assets_admin/assets";
+
 
 const AddDoctor = () => {
   const [docImage, setDocImage] = useState(null);

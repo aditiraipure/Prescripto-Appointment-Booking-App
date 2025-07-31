@@ -1,11 +1,12 @@
-import { assets } from "../assets/assets_admin/assets";
+
+
 import { useContext } from "react";
 import { AdminContext } from "../context/AdminContext";
 import { useNavigate } from "react-router-dom";
+import {assets} from '../assets/assets_admin/assets'
 
 const NavBar = () => {
-  console.log("NavBar rendered");
-
+ 
   const { aToken, setAToken } = useContext(AdminContext);
   const navigate = useNavigate();
 
