@@ -29,12 +29,15 @@ const AppContextProvider = (props) => {
     "Dec",
   ];
 
-  const slotDateFormat = (slotDate) => {
-    const dateArray = slotDate.split("_");
-    return (
-      dateArray[0] + " " + months[Number(dateArray[1])] + " " + dateArray[2]
-    );
-  };
+ const slotDateFormat = (dateString) => {
+   if (!dateString || typeof dateString !== "string") return "Invalid Date";
+
+   const [day, month, year] = dateString.split("_");
+   return `${day}/${month}/${year}`;
+ };
+
+
+  
 
   const values = {
     calculateAge,

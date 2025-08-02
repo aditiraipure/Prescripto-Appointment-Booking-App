@@ -7,8 +7,10 @@ const authDoctor = async (req, res, next) => {
       return res.status(401).json({ success: false, message: "Not authorized, no token" });
     }
 
-    const decoded = jwt.verify(dtoken, process.env.JWT_SECRET);
-     req.doctorId = decoded.id;
+   const decoded = jwt.verify(dtoken, process.env.JWT_SECRET);
+  console.log("Decoded Token:", decoded);
+  req.doctorId = decoded.id;
+
     next();
   } catch (error) {
     {

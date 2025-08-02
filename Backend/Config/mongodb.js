@@ -5,11 +5,7 @@ dotenv.config();
 
 const connectDB = async () => {
   try {
-    const uri = `${process.env.MONGODB_URI}/prescripto`;
-    await mongoose.connect(uri, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+    await mongoose.connect(process.env.MONGODB_URI);
     console.log("MongoDB connected successfully");
   } catch (error) {
     console.error("MongoDB connection error:", error.message);
@@ -17,7 +13,7 @@ const connectDB = async () => {
   }
 };
 
-
 export default connectDB;
+
 
   

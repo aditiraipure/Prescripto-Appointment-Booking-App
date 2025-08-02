@@ -18,7 +18,7 @@ const AdminContextProvider = (props) => {
   const getAllDoctors = async () => {
     try {
       const res = await axios.post(
-        `${backendUrl}/api/admin/all-doctors`,
+        `${backendUrl}/api/admin/doctors-list`,
         {},
         {
           headers: {
@@ -80,7 +80,7 @@ const AdminContextProvider = (props) => {
         { appointmentId },
         {
           headers: {
-            atoken: aToken, // ✅ Make sure `aToken` is defined correctly
+            atoken: aToken,
           },
         }
       );

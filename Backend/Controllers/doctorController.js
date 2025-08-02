@@ -44,15 +44,15 @@ const loginDoctor = async (req, res) => {
       return res.json({success:false,message:"Invalid credentials"})
     }
 
-    const isMatch = await bcrypt.compare(password,doctor.password)
+    const isMatch = await bcrypt.compare(password, doctor.password);
 
-    if (!isMatch) {
-      const token = jwt.sign({id:doctor._id},process.env.JWT_SECRET)
-      res.json({success:true,token})
-    }
-    else{
-      return res.json({success:false,message:"Invalid credentials"})
-    }
+if (isMatch) {
+  const token = jwt.sign({ id: doctor._id }, process.env.JWT_SECRET);
+  return res.json({ success: true, token });
+} else {
+  return res.json({ success: false, message: "Invalid credentials" });
+}
+
   } catch (error) {
     console.error( error);
         res.json({ success: false, message: error.message });
@@ -61,15 +61,94 @@ const loginDoctor = async (req, res) => {
 
 // api to get doc appointment 
 const appointmentDoctor = async (req, res) => {
-    try {
-         const doctorId = req.doctorId;  
-        const appointments = await appointmentModel.find({ doctor: doctorId }).populate('patient');
-        res.json({ success: true, appointments });
-    } catch (error) {
-        console.error( error);
-        res.json({ success: false, message: error.message });
+  try {
+    const doctorId = req.doctorId;
+    const appointments = await appointmentModel.find({ docId: doctorId });
+    res.json({ success: true, appointments });
+  } catch (error) {
+    console.error(error);
+    res.json({ success: false, message: error.message });
+  }
+};
+
+// Api to mark completed 
+const appointmentComplete = async (req, res) => {
+  try {
+    const { appointmentId } = req.body;
+    const doctorId = req.doctorId;
+
+    const appointmentData = await appointmentModel.findById(appointmentId);
+
+    if (appointmentData && appointmentData.docId.toString() === doctorId) {
+      await appointmentModel.findByIdAndUpdate(appointmentId, { isCompleted: true });
+      return res.json({ success: true, message: "Appointment completed" });
+    } else {
+      return res.status(403).json({ success: false, message: "Unauthorized or appointment not found" });
     }
- }
+  } catch (error) {
+    console.error("Complete Appointment Error:", error.message);
+    return res.status(500).json({ success: false, message: error.message });
+  }
+};
 
 
- export { changeAvailability, doctorList ,loginDoctor ,appointmentDoctor };
+// Api to cancel appointment
+const appointmentCancel = async (req, res) => {
+  try {
+    const { appointmentId } = req.body;
+    const doctorId = req.doctorId;
+
+    const appointmentData = await appointmentModel.findById(appointmentId);
+
+    if (appointmentData && appointmentData.docId.toString() === doctorId) {
+      await appointmentModel.findByIdAndUpdate(appointmentId, { cancelled: true });
+      return res.json({ success: true, message: "Appointment Cancelled" });
+    } else {
+      return res.status(403).json({ success: false, message: "Unauthorized or appointment not found" });
+    }
+  } catch (error) {
+    console.error("Cancel Appointment Error:", error.message);
+    return res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+// Api to get dashboard data for doctor pannel
+const doctorDashboard = async (req, res) => {
+  try {
+    const doctorId = req.doctorId;
+    console.log("Dashboard API hit by doctor:", doctorId);
+
+    const appointments = await appointmentModel.find({ docId: doctorId });
+    console.log("Total appointments found:", appointments.length);
+
+    let earning = 0;
+    appointments.map((item) => {
+      if (item.isCompleted && item.payment) {
+        earning += item.amount;
+      }
+    });
+
+    let patients = [];
+    appointments.map((item) => {
+      if (!patients.includes(item.userId)) {
+        patients.push(item.userId);
+      }
+    });
+
+    const dashData = {
+      earning,
+      appointments: appointments.length,
+      patients: patients.length,
+      latestAppointments: appointments.reverse().slice(0, 9),
+    };
+
+    res.json({ success: true, dashData });
+  } catch (error) {
+    console.error("Dashboard error:", error.message);
+    res.json({ success: false, message: error.message });
+  }
+};
+
+
+
+ export { changeAvailability, doctorList ,loginDoctor ,appointmentDoctor, appointmentComplete,appointmentCancel ,doctorDashboard};

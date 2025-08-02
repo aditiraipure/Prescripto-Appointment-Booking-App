@@ -66,7 +66,7 @@ const AllAppointments = () => {
               <p className="text-red-400 text-xs font-medium">Canclled</p>
             ) : (
               <img
-                onClick={() => cancelAppointment(item.id)}
+                onClick={() => cancelAppointment(item._id)}
                 className="w-10 cursor-pointer"
                 src={assets.cancel_icon}
                 alt="cancel_icon"

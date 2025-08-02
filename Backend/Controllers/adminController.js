@@ -120,16 +120,13 @@ const appointmentsAdmin = async (req,res)=>{
 
 const appointmentCancel = async (req, res) => {
   try {
-     console.log("REQ BODY:", req.body); // ✅ Confirm data received
     const { appointmentId } = req.body;
          console.log("APPOINTMENT ID:", appointmentId); 
-
+         
     if (!appointmentId) {
       return res.status(400).json({ success: false, message: "Appointment ID is required" });
     }
 ;
-
-
     const appointment = await appointmentModel.findById(appointmentId);
     if (!appointment) {
       return res.status(404).json({ success: false, message: "Appointment not found" });
