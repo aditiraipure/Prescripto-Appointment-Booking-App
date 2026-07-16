@@ -1,0 +1,90 @@
+
+@import "tailwindcss";
+
+.login-page {
+  height: 100dvh;
+  overflow: hidden;
+  animation: login-fade-in 350ms ease-out both;
+}
+.login-card {
+  animation: login-slide-up 450ms ease-out both;
+}
+.login-input {
+  transition: border-color 180ms ease, box-shadow 180ms ease;
+}
+.login-input:focus {
+  border-color: #5f6FFF;
+  box-shadow: 0 0 0 3px rgba(95, 111, 255, 0.14);
+}
+@keyframes login-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes login-slide-up {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .login-page, .login-card { animation: none; }
+}
+
+.pagination-button {
+  padding: 0.45rem 0.7rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  color: #4b5563;
+  font-size: 0.75rem;
+  font-weight: 500;
+  background: white;
+  transition: background-color 180ms ease, color 180ms ease, border-color 180ms ease;
+}
+.pagination-button:hover:not(:disabled) {
+  color: #5f6fff;
+  border-color: #c7d2fe;
+  background: #f2f3ff;
+}
+.pagination-button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.action-icon {
+  filter: saturate(1.35) contrast(1.25) brightness(0.82);
+}
+.pagination-button:focus-visible,
+.admin-input:focus-visible {
+  outline: 2px solid #5f6fff;
+  outline-offset: 2px;
+}
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #4b5563;
+}
+.admin-input {
+  width: 100%;
+  border: 1px solid #d1d5db;
+  border-radius: 0.75rem;
+  padding: 0.7rem 1rem;
+  color: #374151;
+  background: white;
+  font-weight: 400;
+  outline: none;
+  transition: border-color 180ms ease, box-shadow 180ms ease;
+}
+.admin-input:focus {
+  border-color: #5f6fff;
+  box-shadow: 0 0 0 3px rgba(95, 111, 255, 0.12);
+}
+@keyframes dashboard-fade {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-dashboard-fade {
+  animation: dashboard-fade 260ms ease-out both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-dashboard-fade { animation: none; }
+}
